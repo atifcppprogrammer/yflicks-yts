@@ -16,23 +16,33 @@ func init() {
 }
 
 func main() {
-	var methodCallers = []func() error{
-		trendingMovies,
-		homePageContent,
-		movieSuggestions,
-		movieDetails,
-		searchMovies,
-		resolveMovieSlugToID,
-		movieDirector,
-		movieReviews,
-		movieComments,
-		movieAdditionalDetails,
+	var (
+		methodCallers = []func() error{
+			trendingMovies,
+			homePageContent,
+			movieSuggestions,
+			movieDetails,
+			searchMovies,
+			resolveMovieSlugToID,
+			movieDirector,
+			movieReviews,
+			movieComments,
+			movieAdditionalDetails,
+		}
+		methodErrs = make(
+			[]error,
+			len(methodCallers),
+		)
+	)
+
+	for i, caller := range methodCallers {
+		if err := caller(); err != nil {
+			methodErrs[i] = err
+		}
 	}
 
-	for _, caller := range methodCallers {
-		if err := caller(); err != nil {
-			log.Fatal(err)
-		}
+	if err := errors.Join(methodErrs...); err != nil {
+		log.Fatal(err)
 	}
 }
 
