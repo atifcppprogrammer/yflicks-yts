@@ -29,7 +29,7 @@ run_example:
 
 publish:
 ifdef version
-	go mod tidy
+	@go mod tidy
 	@GOPROXY=proxy.golang.org go list -m github.com/atifcppprogrammer/yflicks-yts@v$(version)
 else
 	@echo please provide release version for yflicks-yts
