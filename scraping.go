@@ -3,6 +3,7 @@ package yts
 import (
 	"errors"
 	"fmt"
+	"net/url"
 	"path"
 	"regexp"
 	"strconv"
@@ -104,7 +105,7 @@ func (smb *SiteMovieBase) validateScraping() error {
 	return errors.Join(err, genreErrs)
 }
 
-func (smb *SiteMovieBase) scrape(s *goquery.Selection) error {
+func (smb *SiteMovieBase) scrape(s *goquery.Selection, u *url.URL) error {
 	var (
 		bottom   = s.Find(movieBottomCSS)
 		anchor   = s.Find(movieLinkCSS)
@@ -129,10 +130,13 @@ func (smb *SiteMovieBase) scrape(s *goquery.Selection) error {
 		genres = append(genres, Genre(s.Text()))
 	})
 
+	if image != "" {
+		smb.Image = fmt.Sprintf("%s%s", u.String(), image)
+	}
+
 	smb.Title = bottom.Find(movieTitleCSS).Text()
 	smb.Year = yearInt
 	smb.Link = link
-	smb.Image = image
 	smb.Genres = genres
 	return smb.validateScraping()
 }
@@ -168,9 +172,9 @@ func (sm *SiteMovie) validateScraping() error {
 	return errors.Join(bErr, mErr)
 }
 
-func (sm *SiteMovie) scrape(s *goquery.Selection) error {
+func (sm *SiteMovie) scrape(s *goquery.Selection, u *url.URL) error {
 	var (
-		_      = sm.SiteMovieBase.scrape(s)
+		_      = sm.SiteMovieBase.scrape(s, u)
 		anchor = s.Find(movieLinkCSS)
 		rating = anchor.Find("h4.rating").Text()
 	)
@@ -206,11 +210,11 @@ func (sum *SiteUpcomingMovie) validateScraping() error {
 	return errors.Join(bErr, mErr)
 }
 
-func (sum *SiteUpcomingMovie) scrape(s *goquery.Selection) error {
+func (sum *SiteUpcomingMovie) scrape(s *goquery.Selection, u *url.URL) error {
 	const expectedYearElemLen = 2
 
 	var (
-		_           = sum.SiteMovieBase.scrape(s)
+		_           = sum.SiteMovieBase.scrape(s, u)
 		yearSel     = s.Find(movieYearCSS)
 		progressSel = yearSel.Find(movieProgressCSS)
 		progress, _ = progressSel.Attr("value")
@@ -405,7 +409,7 @@ func (c *Client) scrapeTrendingMoviesData(d *goquery.Document) (*TrendingMoviesD
 
 	selection.Each(func(i int, s *goquery.Selection) {
 		siteMovie := SiteMovie{}
-		err := siteMovie.scrape(s)
+		err := siteMovie.scrape(s, &c.config.SiteImageSubDomainURL)
 		if err != nil {
 			err = fmt.Errorf("trending, i=%d, %w", i, err)
 		}
@@ -456,7 +460,7 @@ func (c *Client) scrapeHomePageContentData(d *goquery.Document) (*HomePageConten
 
 	popDownloadSel.Each(func(i int, s *goquery.Selection) {
 		siteMovie := SiteMovie{}
-		err := siteMovie.scrape(s)
+		err := siteMovie.scrape(s, &c.config.SiteImageSubDomainURL)
 		if err != nil {
 			err = fmt.Errorf("popular, i=%d, %w", i, err)
 		}
@@ -467,7 +471,7 @@ func (c *Client) scrapeHomePageContentData(d *goquery.Document) (*HomePageConten
 
 	latestTorrentSel.Each(func(i int, s *goquery.Selection) {
 		siteMovie := SiteMovie{}
-		err := siteMovie.scrape(s)
+		err := siteMovie.scrape(s, &c.config.SiteImageSubDomainURL)
 		if err != nil {
 			err = fmt.Errorf("latest, i=%d, %w", i, err)
 		}
@@ -478,7 +482,7 @@ func (c *Client) scrapeHomePageContentData(d *goquery.Document) (*HomePageConten
 
 	upcomingMovieSel.Each(func(i int, s *goquery.Selection) {
 		upcomingMovie := SiteUpcomingMovie{}
-		err := upcomingMovie.scrape(s)
+		err := upcomingMovie.scrape(s, &c.config.SiteImageSubDomainURL)
 		if err != nil {
 			err = fmt.Errorf("upcoming, i=%d, %w", i, err)
 		}
