@@ -529,6 +529,7 @@ func TestClient_TrendingMoviesWithContext(t *testing.T) {
 			Movies: []yts.SiteMovie{{
 				Rating: "7.6 / 10",
 				SiteMovieBase: yts.SiteMovieBase{
+					Slug:   "superbad-2007",
 					Title:  "Superbad",
 					Year:   2007,
 					Link:   "https://yts.mx/movies/superbad-2007",
@@ -660,6 +661,7 @@ func TestClient_HomePageContentWithContext(t *testing.T) {
 			Popular: []yts.SiteMovie{{
 				Rating: "6.8 / 10",
 				SiteMovieBase: yts.SiteMovieBase{
+					Slug:   "migration-2023",
 					Title:  "Migration",
 					Year:   2023,
 					Link:   "https://yts.mx/movies/migration-2023",
@@ -670,6 +672,7 @@ func TestClient_HomePageContentWithContext(t *testing.T) {
 			Latest: []yts.SiteMovie{{
 				Rating: "5.3 / 10",
 				SiteMovieBase: yts.SiteMovieBase{
+					Slug:   "het-einde-van-de-reis-1981",
 					Title:  "[NL] Het einde van de reis",
 					Year:   1981,
 					Link:   "https://yts.mx/movies/het-einde-van-de-reis-1981",

@@ -3,6 +3,7 @@ package yts
 import (
 	"errors"
 	"fmt"
+	"path"
 	"regexp"
 	"strconv"
 	"strings"
@@ -59,6 +60,7 @@ func cleanString(s string) string {
 // The SiteMovieBase type contains all the information required by both the
 // and SiteMovieUpcoming types.
 type SiteMovieBase struct {
+	Slug   string  `json:"slug"`
 	Title  string  `json:"title"`
 	Year   int     `json:"year"`
 	Link   string  `json:"link"`
@@ -173,6 +175,7 @@ func (sm *SiteMovie) scrape(s *goquery.Selection) error {
 		rating = anchor.Find("h4.rating").Text()
 	)
 
+	sm.Slug = path.Base(sm.Link)
 	sm.Rating = rating
 	return sm.validateScraping()
 }
