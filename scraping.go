@@ -168,12 +168,12 @@ func (sm *SiteMovie) validateScraping() error {
 
 func (sm *SiteMovie) scrape(s *goquery.Selection) error {
 	var (
+		_      = sm.SiteMovieBase.scrape(s)
 		anchor = s.Find(movieLinkCSS)
 		rating = anchor.Find("h4.rating").Text()
 	)
 
 	sm.Rating = rating
-	_ = sm.SiteMovieBase.scrape(s)
 	return sm.validateScraping()
 }
 
@@ -207,6 +207,7 @@ func (sum *SiteUpcomingMovie) scrape(s *goquery.Selection) error {
 	const expectedYearElemLen = 2
 
 	var (
+		_           = sum.SiteMovieBase.scrape(s)
 		yearSel     = s.Find(movieYearCSS)
 		progressSel = yearSel.Find(movieProgressCSS)
 		progress, _ = progressSel.Attr("value")
@@ -225,7 +226,6 @@ func (sum *SiteUpcomingMovie) scrape(s *goquery.Selection) error {
 
 	sum.Progress = progressInt
 	sum.Quality = quality
-	_ = sum.SiteMovieBase.scrape(s)
 	return sum.validateScraping()
 }
 
