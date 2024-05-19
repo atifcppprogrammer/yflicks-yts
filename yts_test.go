@@ -48,17 +48,19 @@ func TestDefaultTorrentTrackers(t *testing.T) {
 
 func TestDefaultClientConfig(t *testing.T) {
 	var (
-		parsedSiteURL, _    = url.Parse(yts.DefaultSiteURL)
-		parsedAPIBaseURL, _ = url.Parse(yts.DefaultAPIBaseURL)
+		parsedSiteURL, _           = url.Parse(yts.DefaultSiteURL)
+		parsedAPIBaseURL, _        = url.Parse(yts.DefaultAPIBaseURL)
+		parsedImageSubdomainURL, _ = url.Parse(yts.DefaultImageSubDomain)
 	)
 
 	got := yts.DefaultClientConfig()
 	want := yts.ClientConfig{
-		APIBaseURL:      *parsedAPIBaseURL,
-		SiteURL:         *parsedSiteURL,
-		RequestTimeout:  time.Minute,
-		TorrentTrackers: yts.DefaultTorrentTrackers(),
-		Debug:           false,
+		APIBaseURL:            *parsedAPIBaseURL,
+		SiteURL:               *parsedSiteURL,
+		SiteImageSubDomainURL: *parsedImageSubdomainURL,
+		RequestTimeout:        time.Minute,
+		TorrentTrackers:       yts.DefaultTorrentTrackers(),
+		Debug:                 false,
 	}
 
 	assertEqual(t, "DefaultClientConfig", got, want)
