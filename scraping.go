@@ -73,6 +73,9 @@ func (smb *SiteMovieBase) validateScraping() error {
 	err := validation.ValidateStruct(
 		smb,
 		validation.Field(
+			&smb.Slug,
+		),
+		validation.Field(
 			&smb.Title,
 			validation.Required,
 		),
@@ -88,6 +91,7 @@ func (smb *SiteMovieBase) validateScraping() error {
 		validation.Field(
 			&smb.Image,
 			validation.Required,
+			is.URL,
 		),
 	)
 
