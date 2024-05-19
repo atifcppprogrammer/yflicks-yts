@@ -18,12 +18,12 @@ func init() {
 func main() {
 	var (
 		methodCallers = []func() error{
+			searchMovies,
+			movieDetails,
+			movieSuggestions,
+			resolveMovieSlugToID,
 			trendingMovies,
 			homePageContent,
-			movieSuggestions,
-			movieDetails,
-			searchMovies,
-			resolveMovieSlugToID,
 			movieDirector,
 			movieReviews,
 			movieComments,
