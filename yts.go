@@ -18,6 +18,9 @@ const (
 	// The value of the SiteURL field for the ClientConfig instance returned by the
 	// DefaultClientConfig() function.
 	DefaultSiteURL = "https://yts.mx"
+
+	// The value of the images subdomain for the YTS Site.
+	DefaultImageSubDomain = "https://img.yts.mx"
 )
 
 const (
@@ -42,6 +45,11 @@ type ClientConfig struct {
 	// The base URL for the YTS website used by *yts.Client methods, you will likely
 	// never have to specify a value for this other than DefaultSiteURL
 	SiteURL url.URL
+
+	// The base URL for the images subdomain for the YTS Website used by *yts.Client
+	// methods. You will likely never have to specify a value for this other than
+	// DefaultImageSubDomain.
+	SiteImageSubDomainURL url.URL
 
 	// The list of torrent tracker URLs used by the `MagnetLinks()` method for
 	// preparing magnet links for movie torrents.
@@ -114,16 +122,18 @@ func DefaultTorrentTrackers() []string {
 // field values.
 func DefaultClientConfig() ClientConfig {
 	var (
-		parsedSiteURL, _    = url.Parse(DefaultSiteURL)
-		parsedAPIBaseURL, _ = url.Parse(DefaultAPIBaseURL)
+		parsedSiteURL, _           = url.Parse(DefaultSiteURL)
+		parsedAPIBaseURL, _        = url.Parse(DefaultAPIBaseURL)
+		parsedImageSubdomainURL, _ = url.Parse(DefaultImageSubDomain)
 	)
 
 	return ClientConfig{
-		APIBaseURL:      *parsedAPIBaseURL,
-		SiteURL:         *parsedSiteURL,
-		RequestTimeout:  time.Minute,
-		TorrentTrackers: DefaultTorrentTrackers(),
-		Debug:           false,
+		APIBaseURL:            *parsedAPIBaseURL,
+		SiteURL:               *parsedSiteURL,
+		SiteImageSubDomainURL: *parsedImageSubdomainURL,
+		RequestTimeout:        time.Minute,
+		TorrentTrackers:       DefaultTorrentTrackers(),
+		Debug:                 false,
 	}
 }
 

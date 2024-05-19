@@ -48,17 +48,19 @@ func TestDefaultTorrentTrackers(t *testing.T) {
 
 func TestDefaultClientConfig(t *testing.T) {
 	var (
-		parsedSiteURL, _    = url.Parse(yts.DefaultSiteURL)
-		parsedAPIBaseURL, _ = url.Parse(yts.DefaultAPIBaseURL)
+		parsedSiteURL, _           = url.Parse(yts.DefaultSiteURL)
+		parsedAPIBaseURL, _        = url.Parse(yts.DefaultAPIBaseURL)
+		parsedImageSubdomainURL, _ = url.Parse(yts.DefaultImageSubDomain)
 	)
 
 	got := yts.DefaultClientConfig()
 	want := yts.ClientConfig{
-		APIBaseURL:      *parsedAPIBaseURL,
-		SiteURL:         *parsedSiteURL,
-		RequestTimeout:  time.Minute,
-		TorrentTrackers: yts.DefaultTorrentTrackers(),
-		Debug:           false,
+		APIBaseURL:            *parsedAPIBaseURL,
+		SiteURL:               *parsedSiteURL,
+		SiteImageSubDomainURL: *parsedImageSubdomainURL,
+		RequestTimeout:        time.Minute,
+		TorrentTrackers:       yts.DefaultTorrentTrackers(),
+		Debug:                 false,
 	}
 
 	assertEqual(t, "DefaultClientConfig", got, want)
@@ -529,10 +531,11 @@ func TestClient_TrendingMoviesWithContext(t *testing.T) {
 			Movies: []yts.SiteMovie{{
 				Rating: "7.6 / 10",
 				SiteMovieBase: yts.SiteMovieBase{
+					Slug:   "superbad-2007",
 					Title:  "Superbad",
 					Year:   2007,
 					Link:   "https://yts.mx/movies/superbad-2007",
-					Image:  "/assets/images/movies/Superbad_2007/medium-cover.jpg",
+					Image:  "https://img.yts.mx/assets/images/movies/Superbad_2007/medium-cover.jpg",
 					Genres: []yts.Genre{"Action", "Comedy"},
 				},
 			}},
@@ -660,20 +663,22 @@ func TestClient_HomePageContentWithContext(t *testing.T) {
 			Popular: []yts.SiteMovie{{
 				Rating: "6.8 / 10",
 				SiteMovieBase: yts.SiteMovieBase{
+					Slug:   "migration-2023",
 					Title:  "Migration",
 					Year:   2023,
 					Link:   "https://yts.mx/movies/migration-2023",
-					Image:  "/assets/images/movies/migration_2023/medium-cover.jpg",
+					Image:  "https://img.yts.mx/assets/images/movies/migration_2023/medium-cover.jpg",
 					Genres: []yts.Genre{"Action", "Adventure"},
 				},
 			}},
 			Latest: []yts.SiteMovie{{
 				Rating: "5.3 / 10",
 				SiteMovieBase: yts.SiteMovieBase{
+					Slug:   "het-einde-van-de-reis-1981",
 					Title:  "[NL] Het einde van de reis",
 					Year:   1981,
 					Link:   "https://yts.mx/movies/het-einde-van-de-reis-1981",
-					Image:  "/assets/images/movies/het_einde_van_de_reis_1981/medium-cover.jpg",
+					Image:  "https://img.yts.mx/assets/images/movies/het_einde_van_de_reis_1981/medium-cover.jpg",
 					Genres: []yts.Genre{"Action"},
 				},
 			}},
@@ -684,7 +689,7 @@ func TestClient_HomePageContentWithContext(t *testing.T) {
 					Title:  "Boyz n the Hood",
 					Year:   1991,
 					Link:   "https://www.imdb.com/title/tt0101507/",
-					Image:  "/assets/images/movies/Boyz_n_the_Hood_1991/medium-cover.jpg",
+					Image:  "https://img.yts.mx/assets/images/movies/Boyz_n_the_Hood_1991/medium-cover.jpg",
 					Genres: []yts.Genre{},
 				},
 			}},
