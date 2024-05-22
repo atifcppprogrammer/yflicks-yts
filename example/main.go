@@ -71,8 +71,10 @@ func trendingMovies() error {
 }
 
 func movieSuggestions() error {
-	const methodName = "MovieSuggestions"
-	const movieID = 3175
+	const (
+		methodName = "MovieSuggestions"
+		movieID    = 3175
+	)
 	response, err := client.MovieSuggestions(movieID)
 	if err != nil {
 		message := formatMethodReturns(methodName, response, err)
@@ -84,8 +86,10 @@ func movieSuggestions() error {
 }
 
 func movieDetails() error {
-	const methodName = "MovieDetails"
-	const movieID = 3175
+	const (
+		methodName = "MovieDetails"
+		movieID    = 3175
+	)
 	filters := yts.DefaultMovieDetailsFilters()
 	response, err := client.MovieDetails(movieID, filters)
 	if err != nil {
@@ -111,8 +115,10 @@ func searchMovies() error {
 }
 
 func resolveMovieSlugToID() error {
-	const methodName = "ResolveMovieSlugToID"
-	const slug = "oppenheimer-2023"
+	const (
+		methodName = "ResolveMovieSlugToID"
+		slug       = "oppenheimer-2023"
+	)
 	response, err := client.ResolveMovieSlugToID(slug)
 	if err != nil {
 		message := formatMethodReturns(methodName, response, err)
@@ -124,8 +130,10 @@ func resolveMovieSlugToID() error {
 }
 
 func movieDirector() error {
-	const methodName = "MovieDirector"
-	const slug = "oppenheimer-2023"
+	const (
+		methodName = "MovieDirector"
+		slug       = "oppenheimer-2023"
+	)
 	response, err := client.MovieDirector(slug)
 	if err != nil {
 		message := formatMethodReturns(methodName, response, err)
@@ -137,8 +145,10 @@ func movieDirector() error {
 }
 
 func movieReviews() error {
-	const methodName = "MovieReviews"
-	const slug = "oppenheimer-2023"
+	const (
+		methodName = "MovieReviews"
+		slug       = "oppenheimer-2023"
+	)
 	response, err := client.MovieReviews(slug)
 	if err != nil {
 		message := formatMethodReturns(methodName, response, err)
@@ -150,9 +160,11 @@ func movieReviews() error {
 }
 
 func movieComments() error {
-	const methodName = "MovieComments"
-	const slug = "oppenheimer-2023"
-	const page = 1
+	const (
+		methodName = "MovieComments"
+		slug       = "oppenheimer-2023"
+		page       = 1
+	)
 	response, err := client.MovieComments(slug, page)
 	if err != nil {
 		message := formatMethodReturns(methodName, response, err)
@@ -164,8 +176,10 @@ func movieComments() error {
 }
 
 func movieAdditionalDetails() error {
-	const methodName = "MovieAdditionalDetails"
-	const slug = "oppenheimer-2023"
+	const (
+		methodName = "MovieAdditionalDetails"
+		slug       = "oppenheimer-2023"
+	)
 	response, err := client.MovieAdditionalDetails(slug)
 	if err != nil {
 		message := formatMethodReturns(methodName, response, err)
