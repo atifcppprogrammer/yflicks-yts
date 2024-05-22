@@ -147,7 +147,7 @@ func movieDirector() error {
 func movieReviews() error {
 	const (
 		methodName = "MovieReviews"
-		slug       = "oppenheimer-2023"
+		slug       = "the-dark-knight-2008"
 	)
 	response, err := client.MovieReviews(slug)
 	if err != nil {
@@ -178,7 +178,7 @@ func movieComments() error {
 func movieAdditionalDetails() error {
 	const (
 		methodName = "MovieAdditionalDetails"
-		slug       = "oppenheimer-2023"
+		slug       = "the-dark-knight-2008"
 	)
 	response, err := client.MovieAdditionalDetails(slug)
 	if err != nil {
